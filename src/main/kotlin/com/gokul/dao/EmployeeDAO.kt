@@ -1,6 +1,7 @@
 package com.gokul.dao
 
 import com.gokul.model.Employee
+import org.jdbi.v3.sqlobject.customizer.Bind
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 
 interface EmployeeDAO {
@@ -12,4 +13,7 @@ interface EmployeeDAO {
         """
     )
     fun getAll(): List<Employee>  // We will map all columns to Employee
+
+    @SqlQuery("SELECT * FROM employees WHERE emp_id = :emp_id")
+    fun findById(@Bind("emp_id") empId: String): Employee?
 }

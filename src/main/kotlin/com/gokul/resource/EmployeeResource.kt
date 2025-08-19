@@ -16,4 +16,11 @@ class EmployeeResource(private val employeeManager: EmployeeManager) {
         val employees = employeeManager.getEmployeesList()
         return Response.ok(employees).build()
     }
+
+    @GET
+    @Path("/{id}")
+    fun getById(@PathParam("id") empId: String): Response {
+        val employee= employeeManager.getEmployeeById(empId)
+        return Response.ok(employee).build()
+    }
 }
