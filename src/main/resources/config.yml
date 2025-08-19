@@ -1,0 +1,11 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8085
+
+database:
+  driverClass: org.postgresql.Driver
+  user: postgres
+  password: postgres  # replace with your actual password
+  url: jdbc:postgresql://localhost:5432/Attendance_Management
+  validationQuery: "SELECT 1"
