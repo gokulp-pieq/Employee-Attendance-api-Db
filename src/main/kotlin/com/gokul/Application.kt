@@ -2,6 +2,7 @@ package com.gokul
 
 import com.gokul.dao.EmployeeDAO
 import com.gokul.dao.EmployeeRowMapper
+import com.gokul.resource.AttendanceResource
 import com.gokul.resource.EmployeeResource
 import com.gokul.service.EmployeeManager
 import io.dropwizard.Application
@@ -30,6 +31,7 @@ class Application : Application<AttendanceConfiguration>() {
 
 // 4. Register EmployeeResource
         environment.jersey().register(EmployeeResource(employeeManager))
+        environment.jersey().register(AttendanceResource(employeeManager))
 
     }
 }
