@@ -12,7 +12,7 @@ import org.jdbi.v3.postgres.PostgresPlugin
 class Application : Application<AttendanceConfiguration>() {
 
     override fun run(configuration: AttendanceConfiguration, environment: Environment) {
-
+        val serialId=1005
         // 1. Create JDBI instance using database config
         val db = configuration.database
         val jdbi = Jdbi.create(db.url, db.user, db.password)
@@ -23,9 +23,10 @@ class Application : Application<AttendanceConfiguration>() {
         val employeeDAO = jdbi.onDemand(EmployeeDAO::class.java)
 
 // 3. Create EmployeeManager with DAO
-        val employeeManager = EmployeeManager(employeeDAO)
+        val employeeManager = EmployeeManager(employeeDAO,serialId)
 
         jdbi.registerRowMapper(EmployeeRowMapper())
+
 
 // 4. Register EmployeeResource
         environment.jersey().register(EmployeeResource(employeeManager))

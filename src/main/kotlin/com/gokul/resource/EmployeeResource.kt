@@ -1,6 +1,8 @@
 package com.gokul.resource
 
+import com.gokul.dto.CreateUserRequest
 import com.gokul.service.EmployeeManager
+import javax.validation.Valid
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -22,5 +24,11 @@ class EmployeeResource(private val employeeManager: EmployeeManager) {
     fun getById(@PathParam("id") empId: String): Response {
         val employee= employeeManager.getEmployeeById(empId)
         return Response.ok(employee).build()
+    }
+
+    @POST
+    fun addEmployee(@Valid createUserRequest: CreateUserRequest): Response {
+        val result = employeeManager.addEmployee(createUserRequest)
+        return Response.ok(result).build()
     }
 }
