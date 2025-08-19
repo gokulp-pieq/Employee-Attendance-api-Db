@@ -1,6 +1,7 @@
 package com.gokul.dao
 
 import com.gokul.dto.CheckInRequest
+import com.gokul.dto.CheckOutRequest
 import com.gokul.model.Attendance
 import com.gokul.model.Employee
 import org.jdbi.v3.sqlobject.customizer.Bind
@@ -48,4 +49,26 @@ interface EmployeeDAO {
         @Bind("checkInDateTime") checkInDateTime: LocalDateTime
     ): Boolean
 
+    @SqlQuery("""
+        SELECT emp_id, checkin_datetime,checkout_datetime,working_hrs
+        FROM attendances 
+        WHERE emp_id = :empId 
+          AND DATE(checkin_datetime) = DATE(:checkOutDateTime) 
+          AND checkout_datetime IS NULL 
+        ORDER BY checkin_datetime DESC 
+        LIMIT 1
+    """)
+    fun validateCheckOut(@BindBean checkOutRequest: CheckOutRequest): Attendance?
+
+    @SqlUpdate("""
+        UPDATE attendances 
+        SET checkout_datetime = :checkOutDateTime 
+        WHERE emp_id = :empId 
+          AND checkin_datetime = :checkInDateTime
+    """)
+    fun checkOut(
+        @Bind("empId") empId: String,
+        @Bind("checkInDateTime") checkInDateTime: LocalDateTime,
+        @Bind("checkOutDateTime") checkOutDateTime: LocalDateTime
+    )
 }

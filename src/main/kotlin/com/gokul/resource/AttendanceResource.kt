@@ -22,12 +22,12 @@ class AttendanceResource(
         return Response.ok(result).build()
     }
 
-//    @PUT
-//    @Path("/checkout")
-//    fun checkOut(@Valid request: CheckOutRequest): Response {
-//        val result = employeeManager.checkOut(request)
-//        return Response.ok(result).build()
-//    }
+    @PUT
+    @Path("/checkout")
+    fun checkOut(@Valid request: CheckOutRequest): Response {
+        val result = employeeManager.checkOut(request)
+        return Response.ok(result).build()
+    }
 //
 //    @GET
 //    @Path("/all")

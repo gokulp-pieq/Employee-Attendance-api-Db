@@ -5,12 +5,10 @@ import java.time.LocalDateTime
 import java.time.Duration
 
 data class Attendance(
-    val empId: String,
+    val emp_id: String,
     @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    val checkInDateTime: LocalDateTime) {
-
+    val checkin_datetime: LocalDateTime,
     @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    var checkOutDateTime: LocalDateTime?=null
-
-    var workingHrs: Duration = Duration.ZERO
-}
+    val checkout_datetime: LocalDateTime?=null,
+    val working_hrs: Duration = Duration.ZERO
+)

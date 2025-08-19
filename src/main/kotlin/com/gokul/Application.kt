@@ -1,5 +1,6 @@
 package com.gokul
 
+import com.gokul.dao.AttendanceRowMapper
 import com.gokul.dao.EmployeeDAO
 import com.gokul.dao.EmployeeRowMapper
 import com.gokul.resource.AttendanceResource
@@ -27,6 +28,7 @@ class Application : Application<AttendanceConfiguration>() {
         val employeeManager = EmployeeManager(employeeDAO,serialId)
 
         jdbi.registerRowMapper(EmployeeRowMapper())
+        jdbi.registerRowMapper(AttendanceRowMapper())
 
 
 // 4. Register EmployeeResource

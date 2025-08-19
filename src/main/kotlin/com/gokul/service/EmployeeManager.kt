@@ -2,6 +2,7 @@ package com.gokul.service
 
 import com.gokul.dao.EmployeeDAO
 import com.gokul.dto.CheckInRequest
+import com.gokul.dto.CheckOutRequest
 import com.gokul.dto.CreateUserRequest
 import com.gokul.model.Attendance
 import com.gokul.model.Employee
@@ -71,6 +72,22 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
                 throw BadRequestException("Invalid date time format. Use(yyyy-MM-dd HH:mm)")
             }
         }
+    }
+
+    fun checkOut(request: CheckOutRequest): Attendance{
+        if (employeeDAO.findById(request.empId)==null){
+            throw BadRequestException("Employee ID ${request.empId} not found")  //Employee not found with the given id
+        }
+
+        val checkOutDateTime= validateDateTime(request.checkOutDateTime)
+
+        val attendance: Attendance?= employeeDAO.validateCheckOut(request)
+        if(attendance== null){
+            throw BadRequestException("No valid check-ins yet")    //Invalid check-out
+        }
+
+        employeeDAO.checkOut(attendance.emp_id,attendance.checkin_datetime,checkOutDateTime)  //Valid check out
+        return attendance
     }
     // Add other methods later: addEmployee, deleteEmployee
 }
