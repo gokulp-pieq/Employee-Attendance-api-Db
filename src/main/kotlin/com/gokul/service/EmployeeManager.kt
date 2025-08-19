@@ -28,5 +28,12 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
         employeeDAO.insertEmployee(employee)
         return employee
     }
+
+    fun deleteEmployee(empId: String) {
+        val result = employeeDAO.deleteEmpById(empId)
+        if (!result) {
+            throw BadRequestException("Failed to delete user. User id not Found")
+        }
+    }
     // Add other methods later: addEmployee, deleteEmployee
 }

@@ -31,4 +31,11 @@ class EmployeeResource(private val employeeManager: EmployeeManager) {
         val result = employeeManager.addEmployee(createUserRequest)
         return Response.ok(result).build()
     }
+
+    @DELETE
+    @Path("/{empId}")
+    fun deleteEmployee(@PathParam("empId") empId: String): Response {
+        employeeManager.deleteEmployee(empId)
+        return Response.noContent().build()
+    }
 }

@@ -21,4 +21,8 @@ interface EmployeeDAO {
 
     @SqlUpdate("INSERT INTO employees (emp_id, first_name, last_name, role_id, dept_id,reporting_to) VALUES (:emp_id, :first_name, :last_name,:role_id, :dept_id, :reporting_to)")
     fun insertEmployee(@BindBean employee: Employee): Boolean
+
+    @SqlUpdate("DELETE FROM employees WHERE emp_id = :empId")
+    fun deleteEmpById(@Bind("empId") empId: String): Boolean
+
 }
