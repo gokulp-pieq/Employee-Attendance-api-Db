@@ -1,6 +1,7 @@
 package com.gokul
 
 import com.gokul.dao.EmployeeDAO
+import com.gokul.dao.EmployeeRowMapper
 import com.gokul.resource.EmployeeResource
 import com.gokul.service.EmployeeManager
 import io.dropwizard.Application
@@ -23,6 +24,8 @@ class Application : Application<AttendanceConfiguration>() {
 
 // 3. Create EmployeeManager with DAO
         val employeeManager = EmployeeManager(employeeDAO)
+
+        jdbi.registerRowMapper(EmployeeRowMapper())
 
 // 4. Register EmployeeResource
         environment.jersey().register(EmployeeResource(employeeManager))
