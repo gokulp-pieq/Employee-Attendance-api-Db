@@ -35,7 +35,7 @@ class AttendanceResource(
         val attendances = employeeManager.getAttendanceList()
         return Response.ok(attendances).build()
     }
-//
+
 //    @GET
 //    @Path("/workSummary")
 //    fun getWorkSummary(
@@ -58,11 +58,11 @@ class AttendanceResource(
 //                .build()
 //        }
 //    }
-//
-//    @GET
-//    @Path("/all/incomplete")
-//    fun getIncompleteAttendance(): Response {
-//        val attendances = employeeManager.getIncompleteAttendances()
-//        return Response.ok(attendances).build()
-//    }
+
+    @GET
+    @Path("/all/incomplete")
+    fun getIncompleteAttendance(): Response {
+        val attendances = employeeManager.getIncompleteAttendances()
+        return Response.ok(attendances).build()
+    }
 }

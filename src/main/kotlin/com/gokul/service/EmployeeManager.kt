@@ -4,11 +4,14 @@ import com.gokul.dao.EmployeeDAO
 import com.gokul.dto.CheckInRequest
 import com.gokul.dto.CheckOutRequest
 import com.gokul.dto.CreateUserRequest
+import com.gokul.dto.WorkSummary
 import com.gokul.model.Attendance
 import com.gokul.model.Employee
 import java.time.DateTimeException
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import javax.ws.rs.BadRequestException
 
 class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId: Int) {
@@ -93,5 +96,32 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
     fun getAttendanceList(): List<Attendance> {
         return employeeDAO.getAllAttendance() // Fetch all employees from DB
     }
-    // Add other methods later: addEmployee, deleteEmployee
+
+    fun getIncompleteAttendances():List<Attendance>{
+        return employeeDAO.getAllIncompleteAttendance()
+    }
+
+//    //Returns cumulative working hrs of employees between the given dates
+//    fun getTotalWorkingHrsBetween(startingDate: String,endingDate: String): List<WorkSummary>?{
+//        val startDate = parseDate(startingDate)
+//        if(startDate==null){
+//            return null
+//        }
+//
+//        val endDate = parseDate(endingDate)
+//        if(endDate==null){
+//            return null
+//        }
+//
+//        return employeeDAO.summaryOfWorkingHrs(startDate,endDate)
+//    }
+//
+//    fun parseDate(input: String): LocalDate? {
+//        val formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//        return try {
+//            LocalDate.parse(input, formatter)
+//        } catch (e: DateTimeParseException) {
+//            null
+//        }
+//    }
 }

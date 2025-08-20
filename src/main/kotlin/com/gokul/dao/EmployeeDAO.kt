@@ -86,4 +86,14 @@ interface EmployeeDAO {
         """
     )
     fun getAllAttendance(): List<Attendance>
+
+    //Get all Incomplete Attendance entries
+    @SqlQuery(
+        """
+        SELECT emp_id, checkin_datetime, checkout_datetime, working_hrs
+        FROM attendances
+        WHERE checkout_datetime IS NULL
+        """
+    )
+    fun getAllIncompleteAttendance(): List<Attendance>
 }
