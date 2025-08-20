@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotBlank
 import java.time.Duration
 
 data class WorkSummary(
-    @get:JsonProperty("empId")
-    @get:NotBlank(message = "empId cannot be empty")
+    @JsonProperty("emp_id")
     val empId: String,
+    @JsonProperty("working_hrs")
     var workingHrs: Duration
 )

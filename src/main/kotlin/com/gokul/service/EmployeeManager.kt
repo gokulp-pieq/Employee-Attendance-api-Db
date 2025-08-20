@@ -1,5 +1,6 @@
 package com.gokul.service
 
+import com.gokul.dao.AttendanceDAO
 import com.gokul.dao.EmployeeDAO
 import com.gokul.dto.CheckInRequest
 import com.gokul.dto.CheckOutRequest
@@ -15,7 +16,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import jakarta.ws.rs.BadRequestException
 
-class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId: Int) {
+class EmployeeManager(private val employeeDAO: EmployeeDAO, private val attendanceDAO: AttendanceDAO, private var serialId: Int) {
 
     fun getEmployeesList(): List<Employee> {
         return employeeDAO.getAll() // Fetch all employees from DB
@@ -34,7 +35,7 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
 
         // Check if employee already exists by unique field like email
         // Create and Insert
-        val employee= Employee("E${SerialId++}",empRequest.firstName,empRequest.lastName,empRequest.roleId,empRequest.deptId,empRequest.reportingTo)
+        val employee= Employee("E${serialId++}",empRequest.firstName,empRequest.lastName,empRequest.roleId,empRequest.deptId,empRequest.reportingTo)
         employeeDAO.insertEmployee(employee)
         return employee
     }
@@ -53,11 +54,11 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
 
         val checkInDateTime = validateDateTime(request.checkInDateTime)
 
-        if(employeeDAO.hasAlreadyCheckedIn(request.empId,checkInDateTime)){
+        if(attendanceDAO.hasAlreadyCheckedIn(request.empId,checkInDateTime)){
             throw BadRequestException("User has already checked in today")
         }
         val attendance= Attendance(request.empId, checkInDateTime)
-        employeeDAO.insertAttendance(attendance)
+        attendanceDAO.insertAttendance(attendance)
         return attendance
     }
 
@@ -85,22 +86,22 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
 
         val checkOutDateTime= validateDateTime(request.checkOutDateTime)
 
-        val attendance: Attendance?= employeeDAO.validateCheckOut(request)
+        val attendance: Attendance?= attendanceDAO.validateCheckOut(request)
         if(attendance== null){
             throw BadRequestException("No valid check-ins yet")    //Invalid check-out
         }
-        attendance.checkout_datetime=checkOutDateTime
-        attendance.working_hrs= Duration.between(attendance.checkin_datetime, checkOutDateTime)
-        employeeDAO.checkOut(attendance.emp_id,attendance.checkin_datetime,checkOutDateTime, attendance.working_hrs)  //Valid check out
+        attendance.checkOutDatetime=checkOutDateTime
+        attendance.workingHrs= Duration.between(attendance.checkInDatetime, checkOutDateTime)
+        attendanceDAO.checkOut(attendance)  //Valid check out
         return attendance
     }
 
     fun getAttendanceList(): List<Attendance> {
-        return employeeDAO.getAllAttendance() // Fetch all employees from DB
+        return attendanceDAO.getAllAttendance() // Fetch all employees from DB
     }
 
     fun getIncompleteAttendances():List<Attendance>{
-        return employeeDAO.getAllIncompleteAttendance()
+        return attendanceDAO.getAllIncompleteAttendance()
     }
 
     //Returns cumulative working hrs of employees between the given dates
@@ -115,7 +116,7 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
             return null
         }
 
-        return employeeDAO.summaryOfWorkingHrs(startDate,endDate)
+        return attendanceDAO.summaryOfWorkingHrs(startDate,endDate)
     }
 
     fun parseDate(input: String): LocalDate? {
