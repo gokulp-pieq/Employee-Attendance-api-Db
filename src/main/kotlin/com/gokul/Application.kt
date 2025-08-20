@@ -1,8 +1,8 @@
 package com.gokul
 
-import com.gokul.dao.AttendanceRowMapper
+import com.gokul.mapper.AttendanceRowMapper
 import com.gokul.dao.EmployeeDAO
-import com.gokul.dao.EmployeeRowMapper
+import com.gokul.mapper.EmployeeRowMapper
 import com.gokul.resource.AttendanceResource
 import com.gokul.resource.EmployeeResource
 import com.gokul.service.EmployeeManager

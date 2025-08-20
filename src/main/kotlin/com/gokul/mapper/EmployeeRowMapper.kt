@@ -1,4 +1,4 @@
-package com.gokul.dao
+package com.gokul.mapper
 
 import com.gokul.model.Employee
 import org.jdbi.v3.core.mapper.RowMapper

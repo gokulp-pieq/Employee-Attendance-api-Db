@@ -89,5 +89,9 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
         employeeDAO.checkOut(attendance.emp_id,attendance.checkin_datetime,checkOutDateTime)  //Valid check out
         return attendance
     }
+
+    fun getAttendanceList(): List<Attendance> {
+        return employeeDAO.getAllAttendance() // Fetch all employees from DB
+    }
     // Add other methods later: addEmployee, deleteEmployee
 }

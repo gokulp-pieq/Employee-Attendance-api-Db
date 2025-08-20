@@ -1,11 +1,11 @@
-package com.gokul.dao
+package com.gokul.mapper
 
 import com.gokul.model.Attendance
 import org.jdbi.v3.core.mapper.RowMapper
 import org.jdbi.v3.core.statement.StatementContext
+import org.postgresql.util.PGInterval
 import java.sql.ResultSet
 import java.time.Duration
-import org.postgresql.util.PGInterval
 
 class AttendanceRowMapper : RowMapper<Attendance> {
     override fun map(rs: ResultSet, ctx: StatementContext): Attendance {

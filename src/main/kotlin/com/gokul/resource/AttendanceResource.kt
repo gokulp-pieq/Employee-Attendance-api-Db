@@ -28,13 +28,13 @@ class AttendanceResource(
         val result = employeeManager.checkOut(request)
         return Response.ok(result).build()
     }
-//
-//    @GET
-//    @Path("/all")
-//    fun getAttendanceList(): Response {
-//        val attendances = employeeManager.getAttendanceList()
-//        return Response.ok(attendances).build()
-//    }
+
+    @GET
+    @Path("/all")
+    fun getAttendanceList(): Response {
+        val attendances = employeeManager.getAttendanceList()
+        return Response.ok(attendances).build()
+    }
 //
 //    @GET
 //    @Path("/workSummary")
