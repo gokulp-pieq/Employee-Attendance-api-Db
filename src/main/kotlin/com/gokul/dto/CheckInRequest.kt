@@ -5,8 +5,9 @@ import jakarta.validation.constraints.NotBlank
 
 
 data class CheckInRequest(
-    @get:JsonProperty("empId")
+    @JsonProperty("empId")
     @get:NotBlank(message = "empId cannot be empty")
-    val empId: String="",
-    val checkInDateTime: String=""
+    val empId: String,
+    @JsonProperty("checkInDateTime")
+    val checkInDateTime: String
 )

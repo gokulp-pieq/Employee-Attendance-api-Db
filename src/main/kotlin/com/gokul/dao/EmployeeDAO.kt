@@ -28,7 +28,7 @@ interface EmployeeDAO {
     fun findById(@Bind("emp_id") empId: String): Employee?
 
     //Create Employee
-    @SqlUpdate("INSERT INTO employees (emp_id, first_name, last_name, role_id, dept_id,reporting_to) VALUES (:emp_id, :first_name, :last_name,:role_id, :dept_id, :reporting_to)")
+    @SqlUpdate("INSERT INTO employees (emp_id, first_name, last_name, role_id, dept_id,reporting_to) VALUES (:empId, :firstName, :lastName,:roleId, :deptId, :reportingTo)")
     fun insertEmployee(@BindBean employee: Employee): Boolean
 
     //Remove Employee

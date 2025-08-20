@@ -1,12 +1,13 @@
 package com.gokul
 
-import io.dropwizard.Configuration
+
 import com.fasterxml.jackson.annotation.JsonProperty
+import io.dropwizard.core.Configuration
 import io.dropwizard.db.DataSourceFactory
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 
-class AttendanceConfiguration : Configuration() {
+class Configuration : Configuration() {
 
     @Valid
     @NotNull

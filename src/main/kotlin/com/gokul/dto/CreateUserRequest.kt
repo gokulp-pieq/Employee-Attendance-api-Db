@@ -6,15 +6,18 @@ import jakarta.validation.constraints.NotNull
 
 
 data class CreateUserRequest(
-    @get:JsonProperty("firstName")
+    @JsonProperty("firstName")
     @get:NotBlank(message = "firstName cannot be empty")
-    val firstName: String="",
-    @get:JsonProperty("lastName")
+    val firstName: String,
+    @JsonProperty("lastName")
     @get:NotBlank(message = "lastName cannot be empty")
-    val lastName: String="",
+    val lastName: String,
+    @JsonProperty("roleId")
     @get:NotNull("role Id cannot be null")
-    val roleId: Int=-1,
+    val roleId: Int,
+    @JsonProperty("deptId")
     @get:NotNull("department Id cannot be null")
-    val deptId: Int=-1,
-    val reportingTo: String=""
+    val deptId: Int,
+    @JsonProperty("reportingTo")
+    val reportingTo: String
 )
