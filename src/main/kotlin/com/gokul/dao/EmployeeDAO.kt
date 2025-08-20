@@ -8,6 +8,7 @@ import org.jdbi.v3.sqlobject.customizer.Bind
 import org.jdbi.v3.sqlobject.customizer.BindBean
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
+import java.time.Duration
 import java.time.LocalDateTime
 
 interface EmployeeDAO {
@@ -37,7 +38,7 @@ interface EmployeeDAO {
     //Check in
     @SqlUpdate("""
         INSERT INTO attendances (emp_id, checkin_datetime) 
-        VALUES (:empId, :checkInDateTime)
+        VALUES (:emp_id, :checkin_datetime)
     """)
     fun insertAttendance(@BindBean attendance: Attendance): Boolean
 
@@ -67,15 +68,18 @@ interface EmployeeDAO {
 
     //Checkout
     @SqlUpdate("""
-        UPDATE attendances 
-        SET checkout_datetime = :checkOutDateTime 
-        WHERE emp_id = :empId 
-          AND checkin_datetime = :checkInDateTime
+        UPDATE attendances
+        SET checkout_datetime = :checkOutDateTime,
+            working_hrs = :workingHrs
+        WHERE emp_id = :empId
+            AND DATE(checkin_datetime)=DATE(:checkInDateTime)
+            AND checkout_datetime IS NULL;
     """)
     fun checkOut(
         @Bind("empId") empId: String,
         @Bind("checkInDateTime") checkInDateTime: LocalDateTime,
-        @Bind("checkOutDateTime") checkOutDateTime: LocalDateTime
+        @Bind("checkOutDateTime") checkOutDateTime: LocalDateTime,
+        @Bind("workingHrs") workingHrs: Duration
     )
 
     //Get all Attendance entries

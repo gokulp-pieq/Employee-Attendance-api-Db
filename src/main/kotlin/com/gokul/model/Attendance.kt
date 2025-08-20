@@ -9,6 +9,6 @@ data class Attendance(
     @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     val checkin_datetime: LocalDateTime,
     @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    val checkout_datetime: LocalDateTime?=null,
-    val working_hrs: Duration = Duration.ZERO
+    var checkout_datetime: LocalDateTime?=null,
+    var working_hrs: Duration = Duration.ZERO
 )

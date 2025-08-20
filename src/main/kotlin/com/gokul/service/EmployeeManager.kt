@@ -8,6 +8,7 @@ import com.gokul.dto.WorkSummary
 import com.gokul.model.Attendance
 import com.gokul.model.Employee
 import java.time.DateTimeException
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -88,8 +89,9 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
         if(attendance== null){
             throw BadRequestException("No valid check-ins yet")    //Invalid check-out
         }
-
-        employeeDAO.checkOut(attendance.emp_id,attendance.checkin_datetime,checkOutDateTime)  //Valid check out
+        attendance.checkout_datetime=checkOutDateTime
+        attendance.working_hrs= Duration.between(attendance.checkin_datetime, checkOutDateTime)
+        employeeDAO.checkOut(attendance.emp_id,attendance.checkin_datetime,checkOutDateTime, attendance.working_hrs)  //Valid check out
         return attendance
     }
 
