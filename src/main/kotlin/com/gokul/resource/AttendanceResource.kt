@@ -36,28 +36,28 @@ class AttendanceResource(
         return Response.ok(attendances).build()
     }
 
-//    @GET
-//    @Path("/workSummary")
-//    fun getWorkSummary(
-//        @QueryParam("startDate") startDate: String,
-//        @QueryParam("endDate") endDate: String
-//    ): Response {
-//        if (startDate.isBlank() || endDate.isBlank()) {
-//            return Response.status(Response.Status.BAD_REQUEST)
-//                .entity("startDate and endDate query parameters are required")
-//                .build()
-//        }
-//
-//        val result = employeeManager.getTotalWorkingHrsBetween(startDate, endDate)
-//
-//        return if (result != null) {
-//            Response.ok(result).build()
-//        } else {
-//            Response.status(Response.Status.BAD_REQUEST)
-//                .entity("Invalid date format. Please use dd-MM-yyyy")
-//                .build()
-//        }
-//    }
+    @GET
+    @Path("/workSummary")
+    fun getWorkSummary(
+        @QueryParam("startDate") startDate: String,
+        @QueryParam("endDate") endDate: String
+    ): Response {
+        if (startDate.isBlank() || endDate.isBlank()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                .entity("startDate and endDate query parameters are required")
+                .build()
+        }
+
+        val result = employeeManager.getTotalWorkingHrsBetween(startDate, endDate)
+
+        return if (result != null) {
+            Response.ok(result).build()
+        } else {
+            Response.status(Response.Status.BAD_REQUEST)
+                .entity("Invalid date format. Please use dd-MM-yyyy")
+                .build()
+        }
+    }
 
     @GET
     @Path("/all/incomplete")

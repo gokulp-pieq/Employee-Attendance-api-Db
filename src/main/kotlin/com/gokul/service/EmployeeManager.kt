@@ -103,27 +103,27 @@ class EmployeeManager(private val employeeDAO: EmployeeDAO,private var SerialId:
         return employeeDAO.getAllIncompleteAttendance()
     }
 
-//    //Returns cumulative working hrs of employees between the given dates
-//    fun getTotalWorkingHrsBetween(startingDate: String,endingDate: String): List<WorkSummary>?{
-//        val startDate = parseDate(startingDate)
-//        if(startDate==null){
-//            return null
-//        }
-//
-//        val endDate = parseDate(endingDate)
-//        if(endDate==null){
-//            return null
-//        }
-//
-//        return employeeDAO.summaryOfWorkingHrs(startDate,endDate)
-//    }
-//
-//    fun parseDate(input: String): LocalDate? {
-//        val formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd")
-//        return try {
-//            LocalDate.parse(input, formatter)
-//        } catch (e: DateTimeParseException) {
-//            null
-//        }
-//    }
+    //Returns cumulative working hrs of employees between the given dates
+    fun getTotalWorkingHrsBetween(startingDate: String,endingDate: String): List<WorkSummary>?{
+        val startDate = parseDate(startingDate)
+        if(startDate==null){
+            return null
+        }
+
+        val endDate = parseDate(endingDate)
+        if(endDate==null){
+            return null
+        }
+
+        return employeeDAO.summaryOfWorkingHrs(startDate,endDate)
+    }
+
+    fun parseDate(input: String): LocalDate? {
+        val formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return try {
+            LocalDate.parse(input, formatter)
+        } catch (e: DateTimeParseException) {
+            null
+        }
+    }
 }

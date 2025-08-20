@@ -2,6 +2,7 @@ package com.gokul.dao
 
 import com.gokul.dto.CheckInRequest
 import com.gokul.dto.CheckOutRequest
+import com.gokul.dto.WorkSummary
 import com.gokul.model.Attendance
 import com.gokul.model.Employee
 import org.jdbi.v3.sqlobject.customizer.Bind
@@ -9,6 +10,7 @@ import org.jdbi.v3.sqlobject.customizer.BindBean
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
 import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface EmployeeDAO {
@@ -100,4 +102,13 @@ interface EmployeeDAO {
         """
     )
     fun getAllIncompleteAttendance(): List<Attendance>
+
+    //Get work summary between two days
+    @SqlQuery( """ SELECT emp_id,SUM(checkout_datetime-checkin_datetime) AS total_working_hrs FROM attendances 
+        WHERE DATE(checkout_datetime) BETWEEN DATE(:start) AND DATE(:end) 
+        GROUP BY(emp_id); """ )
+    fun summaryOfWorkingHrs(
+        @Bind("start") start: LocalDate,
+        @Bind("end") end: LocalDate
+    ): List<WorkSummary>
 }

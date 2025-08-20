@@ -3,6 +3,7 @@ package com.gokul
 import com.gokul.mapper.AttendanceRowMapper
 import com.gokul.dao.EmployeeDAO
 import com.gokul.mapper.EmployeeRowMapper
+import com.gokul.mapper.WorkSummaryRowMapper
 import com.gokul.resource.AttendanceResource
 import com.gokul.resource.EmployeeResource
 import com.gokul.service.EmployeeManager
@@ -29,9 +30,10 @@ class Application : Application<AttendanceConfiguration>() {
 
         jdbi.registerRowMapper(EmployeeRowMapper())
         jdbi.registerRowMapper(AttendanceRowMapper())
+        jdbi.registerRowMapper(WorkSummaryRowMapper())
 
 
-// 4. Register EmployeeResource
+ // 4. Register EmployeeResource
         environment.jersey().register(EmployeeResource(employeeManager))
         environment.jersey().register(AttendanceResource(employeeManager))
 
