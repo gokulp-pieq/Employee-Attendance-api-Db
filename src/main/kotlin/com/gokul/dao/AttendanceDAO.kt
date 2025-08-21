@@ -9,6 +9,7 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.UUID
 
 interface AttendanceDAO {
     //Check in
@@ -32,7 +33,7 @@ interface AttendanceDAO {
         """
     )
     fun hasAlreadyCheckedIn(
-        @Bind("empId") empId: String,
+        @Bind("empId") empId: UUID,
         @Bind("checkInDateTime") checkInDateTime: LocalDateTime
     ): Boolean
 
@@ -46,7 +47,10 @@ interface AttendanceDAO {
             AND checkout_datetime IS NULL;
         """
     )
-    fun validateCheckOut(@BindBean checkOutRequest: CheckOutRequest): Attendance?
+    fun validateCheckOut(
+        @Bind("empId") empId: UUID,
+        @Bind("checkOutDateTime") checkOutDateTime: LocalDateTime
+    ): Attendance?
 
     //Checkout
     @SqlUpdate(

@@ -5,6 +5,7 @@ import org.jdbi.v3.sqlobject.customizer.Bind
 import org.jdbi.v3.sqlobject.customizer.BindBean
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
+import java.util.UUID
 
 interface EmployeeDAO {
     //Get all Employees
@@ -23,7 +24,7 @@ interface EmployeeDAO {
         FROM employees WHERE emp_id = :emp_id
         """
     )
-    fun findById(@Bind("emp_id") empId: String): Employee?
+    fun findById(@Bind("emp_id") empId: UUID): Employee?
 
     //Update Employee
     @SqlUpdate(
@@ -35,5 +36,5 @@ interface EmployeeDAO {
 
     //Remove Employee
     @SqlUpdate("DELETE FROM employees WHERE emp_id = :empId")
-    fun deleteEmpById(@Bind("empId") empId: String): Boolean
+    fun deleteEmpById(@Bind("empId") empId: UUID): Boolean
 }

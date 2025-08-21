@@ -2,10 +2,11 @@ package com.gokul.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
+import java.util.UUID
 
 data class Employee(
 
-    @JsonProperty("emp_id") val empId: String,
+    @JsonProperty("emp_id") val empId: UUID= UUID.randomUUID(),
 
     @get:NotBlank @JsonProperty("first_name") val firstName: String,
 
@@ -15,6 +16,6 @@ data class Employee(
 
     @JsonProperty("dept_id") val deptId: Int,
 
-    @JsonProperty("reporting_to") val reportingTo: String? = null
+    @JsonProperty("reporting_to") val reportingTo: UUID?
 
 )

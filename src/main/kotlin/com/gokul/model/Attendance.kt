@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
 import java.time.Duration
+import java.util.UUID
 
 data class Attendance(
     @JsonProperty("emp_id")
-    val empId: String,
+    val empId: UUID,
     @JsonProperty("checkin_datetime")
     @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     val checkInDatetime: LocalDateTime,

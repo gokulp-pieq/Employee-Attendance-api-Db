@@ -38,7 +38,7 @@ class Application : Application<Configuration>() {
         val employeeDAO = jdbi.onDemand(EmployeeDAO::class.java)
         val attendanceDAO = jdbi.onDemand(AttendanceDAO::class.java)
 
-        val employeeManager = EmployeeManager(employeeDAO, attendanceDAO, 1009)
+        val employeeManager = EmployeeManager(employeeDAO, attendanceDAO)
 
         // 4. Register EmployeeResource
         environment.jersey().register(EmployeeResource(employeeManager))

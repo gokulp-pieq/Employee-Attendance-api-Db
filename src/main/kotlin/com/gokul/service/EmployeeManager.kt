@@ -15,21 +15,18 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import jakarta.ws.rs.BadRequestException
+import java.util.UUID
 
 class EmployeeManager(
     private val employeeDAO: EmployeeDAO,
-    private val attendanceDAO: AttendanceDAO,
-    private var serialId: Int
+    private val attendanceDAO: AttendanceDAO
 ) {
 
     fun getEmployeesList(): List<Employee> {
         return employeeDAO.getAll() // Fetch all employees from DB
     }
 
-    fun getEmployeeById(empId: String): Employee {
-        if (empId.isBlank()) {
-            throw BadRequestException("User id can not be empty")
-        }
+    fun getEmployeeById(empId: UUID): Employee {
         return employeeDAO.findById(empId) ?: throw BadRequestException("User with id '$empId' not found")
     }
 
@@ -40,18 +37,17 @@ class EmployeeManager(
         // Check if employee already exists by unique field like email
         // Create and Insert
         val employee = Employee(
-            "E${serialId++}",
-            empRequest.firstName,
-            empRequest.lastName,
-            empRequest.roleId,
-            empRequest.deptId,
-            empRequest.reportingTo
+            firstName = empRequest.firstName,
+            lastName = empRequest.lastName,
+            roleId = empRequest.roleId,
+            deptId = empRequest.deptId,
+            reportingTo = UUID.fromString(empRequest.reportingTo)
         )
         employeeDAO.insertEmployee(employee)
         return employee
     }
 
-    fun deleteEmployee(empId: String) {
+    fun deleteEmployee(empId: UUID) {
         val result = employeeDAO.deleteEmpById(empId)
         if (!result) {
             throw BadRequestException("Failed to delete user. User id not Found")
@@ -97,7 +93,7 @@ class EmployeeManager(
 
         val checkOutDateTime = validateDateTime(request.checkOutDateTime)
 
-        val attendance: Attendance? = attendanceDAO.validateCheckOut(request)
+        val attendance: Attendance? = attendanceDAO.validateCheckOut(request.empId,checkOutDateTime)
         if (attendance == null) {
             throw BadRequestException("No valid check-ins yet")    //Invalid check-out
         }

@@ -1,13 +1,12 @@
 package com.gokul.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.NotBlank
+import java.util.UUID
 
 
 data class CheckInRequest(
     @JsonProperty("empId")
-    @get:NotBlank(message = "empId cannot be empty")
-    val empId: String,
+    val empId: UUID,
     @JsonProperty("checkInDateTime")
     val checkInDateTime: String
 )
