@@ -7,12 +7,12 @@ This project follows a layered architecture where HTTP requests flow through dif
 ## Workflow Steps
 
 ### 1. Client Request → Jetty Server
-- The client sends an HTTP request (e.g., `POST /employee/checkin`).  
+- The client sends an HTTP request (e.g.,POST /employee/checkin).  
 - Dropwizard runs on Jetty (an embedded HTTP server), which accepts the request.  
 
 ### 2. Jetty → Jersey Dispatcher
 - Jetty forwards the request to Jersey.  
-- Jersey matches the request URL & HTTP method (`@GET`, `@POST`, etc.) with the correct Resource class method.  
+- Jersey matches the request URL & HTTP method (@GET, @POST, etc.) with the correct Resource class method.  
 
 ### 3. Jersey → Resource Layer
 - The matched method in the Resource class executes.  

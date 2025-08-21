@@ -34,15 +34,13 @@ class Application : Application<Configuration>() {
         jdbi.registerColumnMapper(Duration::class.java, DurationColumnMapper())
 
 
-
-        //Instead, create your DAO class by passing Jdbi into it:
+        //Create your DAO class by passing Jdbi into it:
         val employeeDAO = jdbi.onDemand(EmployeeDAO::class.java)
-        val attendanceDAO=jdbi.onDemand(AttendanceDAO::class.java)
-//        val attendanceService = AttendanceDao(attendanceDao)
+        val attendanceDAO = jdbi.onDemand(AttendanceDAO::class.java)
 
-        val employeeManager = EmployeeManager(employeeDAO,attendanceDAO,1009)
+        val employeeManager = EmployeeManager(employeeDAO, attendanceDAO, 1009)
 
- // 4. Register EmployeeResource
+        // 4. Register EmployeeResource
         environment.jersey().register(EmployeeResource(employeeManager))
         environment.jersey().register(AttendanceResource(employeeManager))
 

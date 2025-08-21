@@ -2,10 +2,7 @@ package com.gokul.model
 
 
 enum class Role {
-    DEVELOPER,
-    DESIGNER,
-    INTERN,
-    MANAGER;
+    DEVELOPER, DESIGNER, INTERN, MANAGER;
 
     companion object {
         override fun toString(): String {

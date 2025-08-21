@@ -1,10 +1,7 @@
 package com.gokul.model
 
 enum class Manager {
-    PIEQM1001,
-    PIEQM1002,
-    PIEQM1003,
-    PIEQM1004;
+    PIEQM1001, PIEQM1002, PIEQM1003, PIEQM1004;
 
     companion object {
         override fun toString(): String {

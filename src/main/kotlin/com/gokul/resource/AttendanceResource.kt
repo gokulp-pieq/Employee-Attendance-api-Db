@@ -14,7 +14,7 @@ import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 
-@Path("/attendance")
+@Path("/attendances")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class AttendanceResource(
@@ -36,7 +36,6 @@ class AttendanceResource(
     }
 
     @GET
-    @Path("/all")
     fun getAttendanceList(): Response {
         val attendances = employeeManager.getAttendanceList()
         return Response.ok(attendances).build()
@@ -45,13 +44,11 @@ class AttendanceResource(
     @GET
     @Path("/workSummary")
     fun getWorkSummary(
-        @QueryParam("startDate") startDate: String,
-        @QueryParam("endDate") endDate: String
+        @QueryParam("startDate") startDate: String, @QueryParam("endDate") endDate: String
     ): Response {
         if (startDate.isBlank() || endDate.isBlank()) {
             return Response.status(Response.Status.BAD_REQUEST)
-                .entity("startDate and endDate query parameters are required")
-                .build()
+                .entity("startDate and endDate query parameters are required").build()
         }
 
         val result = employeeManager.getTotalWorkingHrsBetween(startDate, endDate)
@@ -59,14 +56,12 @@ class AttendanceResource(
         return if (result != null) {
             Response.ok(result).build()
         } else {
-            Response.status(Response.Status.BAD_REQUEST)
-                .entity("Invalid date format. Please use dd-MM-yyyy")
-                .build()
+            Response.status(Response.Status.BAD_REQUEST).entity("Invalid date format. Please use dd-MM-yyyy").build()
         }
     }
 
     @GET
-    @Path("/all/incomplete")
+    @Path("incomplete")
     fun getIncompleteAttendance(): Response {
         val attendances = employeeManager.getIncompleteAttendances()
         return Response.ok(attendances).build()
