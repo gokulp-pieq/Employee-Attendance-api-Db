@@ -23,7 +23,7 @@
 - Request JSON is automatically converted to a Kotlin object using Jackson.  
 
 ### 4. Resource → Service Layer
-- The Resource calls the Manager Class (business logic), which decides how to process the request.  
+- The Resource calls the Service Class (business logic), which decides how to process the request.  
 
 ### 5. Service → DAO Layer
 - The Service delegates persistence tasks to the DAO, which interacts with the database using JDBI.  
@@ -32,7 +32,7 @@
 - DAO executes SQL queries and maps results to model classes.  
 
 ### 7. DAO → Service → Resource
-- Data flows back upward through DAO → Manager → Resource.  
+- Data flows back upward through DAO → Service → Resource.  
 
 ### 8. Resource → Jersey → Client Response
 - The Resource returns a response object.  
