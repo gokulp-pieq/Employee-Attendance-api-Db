@@ -1,32 +1,23 @@
 package com.gokul.model
 
-enum class Department {
-    SOFTWARE_DEVELOPMENT,
-    QUALITY_ASSURANCE,
-    IT_SUPPORT,
-    NETWORK_ADMINISTRATION,
-    CYBERSECURITY,
-    DATABASE_ADMINISTRATION,
-    SYSTEM_ADMINISTRATION,
-    DEVOPS,
-    CLOUD_COMPUTING,
-    DATA_SCIENCE,
-    PROJECT_MANAGEMENT,
-    BUSINESS_ANALYSIS,
-    UX_UI_DESIGN,
-    TECHNICAL_WRITING;
+enum class Department(val id :Int) {
+    SOFTWARE_DEVELOPMENT(1),
+    QUALITY_ASSURANCE(2),
+    IT_SUPPORT(3),
+    NETWORK_ADMINISTRATION(4),
+    CYBERSECURITY(5),
+    DATABASE_ADMINISTRATION(6),
+    SYSTEM_ADMINISTRATION(7),
+    DEVOPS(8),
+    CLOUD_COMPUTING(9),
+    DATA_SCIENCE(10),
+    PROJECT_MANAGEMENT(11),
+    BUSINESS_ANALYSIS(12),
+    UX_UI_DESIGN(13),
+    TECHNICAL_WRITING(14);
 
     companion object {
-        override fun toString(): String {
-            return Department.entries.joinToString(", ") { it.toString() }
-        }
-
-        fun from(input: String): Department? {
-            return try {
-                Department.valueOf(input.trim().uppercase())
-            } catch (e: IllegalArgumentException) {
-                null
-            }
-        }
+        fun fromName(name: String): Department? =
+            Department.entries.find { it.name.equals(name, ignoreCase = true) }
     }
 }

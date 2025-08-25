@@ -2,7 +2,7 @@ package com.gokul.resource
 
 import com.gokul.dto.CheckInRequest
 import com.gokul.dto.CheckOutRequest
-import com.gokul.service.EmployeeManager
+import com.gokul.service.EmployeeService
 import jakarta.validation.Valid
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.GET
@@ -18,26 +18,26 @@ import jakarta.ws.rs.core.Response
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class AttendanceResource(
-    private val employeeManager: EmployeeManager
+    private val employeeService: EmployeeService
 ) {
 
     @POST
     @Path("/checkin")
     fun checkIn(@Valid request: CheckInRequest): Response {
-        val result = employeeManager.checkIn(request)
+        val result = employeeService.checkIn(request)
         return Response.ok(result).build()
     }
 
     @PUT
     @Path("/checkout")
     fun checkOut(@Valid request: CheckOutRequest): Response {
-        val result = employeeManager.checkOut(request)
+        val result = employeeService.checkOut(request)
         return Response.ok(result).build()
     }
 
     @GET
     fun getAttendanceList(): Response {
-        val attendances = employeeManager.getAttendanceList()
+        val attendances = employeeService.getAttendanceList()
         return Response.ok(attendances).build()
     }
 
@@ -51,7 +51,7 @@ class AttendanceResource(
                 .entity("startDate and endDate query parameters are required").build()
         }
 
-        val result = employeeManager.getTotalWorkingHrsBetween(startDate, endDate)
+        val result = employeeService.getTotalWorkingHrsBetween(startDate, endDate)
 
         return if (result != null) {
             Response.ok(result).build()
@@ -63,7 +63,7 @@ class AttendanceResource(
     @GET
     @Path("incomplete")
     fun getIncompleteAttendance(): Response {
-        val attendances = employeeManager.getIncompleteAttendances()
+        val attendances = employeeService.getIncompleteAttendances()
         return Response.ok(attendances).build()
     }
 }

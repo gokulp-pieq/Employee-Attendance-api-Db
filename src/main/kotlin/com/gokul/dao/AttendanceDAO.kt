@@ -1,6 +1,5 @@
 package com.gokul.dao
 
-import com.gokul.dto.CheckOutRequest
 import com.gokul.dto.WorkSummary
 import com.gokul.model.Attendance
 import org.jdbi.v3.sqlobject.customizer.Bind
@@ -57,7 +56,7 @@ interface AttendanceDAO {
         """
         UPDATE attendances
         SET checkout_datetime = :checkOutDatetime,
-            working_hrs = checkout_datetime-checkin_datetime
+            working_hrs = :checkOutDatetime-checkin_datetime
         WHERE emp_id = :empId
             AND DATE(checkin_datetime)=DATE(:checkInDatetime)
             AND checkout_datetime IS NULL;

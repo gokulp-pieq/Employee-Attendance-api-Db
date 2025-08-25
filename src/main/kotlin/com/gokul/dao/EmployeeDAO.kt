@@ -5,6 +5,7 @@ import org.jdbi.v3.sqlobject.customizer.Bind
 import org.jdbi.v3.sqlobject.customizer.BindBean
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
+import java.time.LocalDateTime
 import java.util.UUID
 
 interface EmployeeDAO {
@@ -37,4 +38,19 @@ interface EmployeeDAO {
     //Remove Employee
     @SqlUpdate("DELETE FROM employees WHERE emp_id = :empId")
     fun deleteEmpById(@Bind("empId") empId: UUID): Boolean
+
+    // Check whether a given id is manager or not
+    @SqlQuery(
+        """
+        SELECT EXISTS (
+        SELECT 1
+        FROM employees 
+        WHERE emp_id = :id 
+            AND reporting_to is NULL
+        );
+        """
+    )
+    fun isManager(
+        @Bind("id") id: UUID,
+    ): Boolean
 }

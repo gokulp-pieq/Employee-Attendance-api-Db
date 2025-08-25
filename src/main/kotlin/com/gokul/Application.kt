@@ -8,7 +8,7 @@ import com.gokul.dao.EmployeeDAO
 import com.gokul.mapper.DurationColumnMapper
 import com.gokul.resource.AttendanceResource
 import com.gokul.resource.EmployeeResource
-import com.gokul.service.EmployeeManager
+import com.gokul.service.EmployeeService
 import io.dropwizard.core.Application
 import io.dropwizard.core.setup.Bootstrap
 import io.dropwizard.core.setup.Environment
@@ -38,11 +38,11 @@ class Application : Application<Configuration>() {
         val employeeDAO = jdbi.onDemand(EmployeeDAO::class.java)
         val attendanceDAO = jdbi.onDemand(AttendanceDAO::class.java)
 
-        val employeeManager = EmployeeManager(employeeDAO, attendanceDAO)
+        val employeeService = EmployeeService(employeeDAO, attendanceDAO)
 
         // 4. Register EmployeeResource
-        environment.jersey().register(EmployeeResource(employeeManager))
-        environment.jersey().register(AttendanceResource(employeeManager))
+        environment.jersey().register(EmployeeResource(employeeService))
+        environment.jersey().register(AttendanceResource(employeeService))
 
     }
 

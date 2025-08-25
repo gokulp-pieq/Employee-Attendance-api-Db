@@ -1,7 +1,7 @@
 package com.gokul.resource
 
 import com.gokul.dto.CreateUserRequest
-import com.gokul.service.EmployeeManager
+import com.gokul.service.EmployeeService
 import jakarta.validation.Valid
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
@@ -17,31 +17,31 @@ import java.util.UUID
 @Path("/employees")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-class EmployeeResource(private val employeeManager: EmployeeManager) {
+class EmployeeResource(private val employeeService: EmployeeService) {
 
     @GET
     fun getAllEmployees(): Response {
-        val employees = employeeManager.getEmployeesList()
+        val employees = employeeService.getEmployeesList()
         return Response.ok(employees).build()
     }
 
     @GET
     @Path("/{id}")
     fun getById(@PathParam("id") empId: String): Response {
-        val employee = employeeManager.getEmployeeById(UUID.fromString(empId))
+        val employee = employeeService.getEmployeeById(UUID.fromString(empId))
         return Response.ok(employee).build()
     }
 
     @POST
     fun addEmployee(@Valid createUserRequest: CreateUserRequest): Response {
-        val result = employeeManager.addEmployee(createUserRequest)
+        val result = employeeService.addEmployee(createUserRequest)
         return Response.ok(result).build()
     }
 
     @DELETE
     @Path("/{empId}")
     fun deleteEmployee(@PathParam("empId") empId: String): Response {
-        employeeManager.deleteEmployee(UUID.fromString(empId))
+        employeeService.deleteEmployee(UUID.fromString(empId))
         return Response.noContent().build()
     }
 }

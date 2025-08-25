@@ -7,7 +7,9 @@ import com.gokul.dto.CheckOutRequest
 import com.gokul.dto.CreateUserRequest
 import com.gokul.dto.WorkSummary
 import com.gokul.model.Attendance
+import com.gokul.model.Department
 import com.gokul.model.Employee
+import com.gokul.model.Role
 import java.time.DateTimeException
 import java.time.Duration
 import java.time.LocalDate
@@ -17,7 +19,7 @@ import java.time.format.DateTimeParseException
 import jakarta.ws.rs.BadRequestException
 import java.util.UUID
 
-class EmployeeManager(
+class EmployeeService(
     private val employeeDAO: EmployeeDAO,
     private val attendanceDAO: AttendanceDAO
 ) {
@@ -33,14 +35,25 @@ class EmployeeManager(
 
     fun addEmployee(empRequest: CreateUserRequest): Employee {
         // Validation
+        val role= Role.fromName(empRequest.role)
+        if(role==null){
+            throw BadRequestException("Invalid role ${empRequest.role}")
+        }
+        val dept= Department.fromName(empRequest.dept)
+        if(dept==null){
+            throw BadRequestException("Invalid department ${empRequest.dept}")
+        }
 
-        // Check if employee already exists by unique field like email
+        if(!employeeDAO.isManager(UUID.fromString(empRequest.reportingTo))){
+            throw BadRequestException("No manager exist with the given reporting id ${empRequest.reportingTo}")
+        }
+
         // Create and Insert
         val employee = Employee(
             firstName = empRequest.firstName,
             lastName = empRequest.lastName,
-            roleId = empRequest.roleId,
-            deptId = empRequest.deptId,
+            roleId = role.id,
+            deptId = dept.id,
             reportingTo = UUID.fromString(empRequest.reportingTo)
         )
         employeeDAO.insertEmployee(employee)

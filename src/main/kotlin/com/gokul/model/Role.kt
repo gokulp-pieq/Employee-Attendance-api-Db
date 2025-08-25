@@ -1,20 +1,11 @@
 package com.gokul.model
 
 
-enum class Role {
-    DEVELOPER, DESIGNER, INTERN, MANAGER;
+enum class Role(val id: Int) {
+    DEVELOPER(1), DESIGNER(2), INTERN(3), MANAGER(4);
 
     companion object {
-        override fun toString(): String {
-            return entries.joinToString(", ") { it.toString() }
-        }
-
-        fun from(input: String): Role? {
-            return try {
-                valueOf(input.trim().uppercase())
-            } catch (e: IllegalArgumentException) {
-                null
-            }
-        }
+        fun fromName(name: String): Role? =
+            entries.find { it.name.equals(name, ignoreCase = true) }
     }
 }
