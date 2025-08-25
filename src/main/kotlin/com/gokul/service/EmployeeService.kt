@@ -35,16 +35,16 @@ class EmployeeService(
 
     fun addEmployee(empRequest: CreateUserRequest): Employee {
         // Validation
-        val role= Role.fromName(empRequest.role)
-        if(role==null){
+        val role = Role.fromName(empRequest.role)
+        if (role == null) {
             throw BadRequestException("Invalid role ${empRequest.role}")
         }
-        val dept= Department.fromName(empRequest.dept)
-        if(dept==null){
+        val dept = Department.fromName(empRequest.dept)
+        if (dept == null) {
             throw BadRequestException("Invalid department ${empRequest.dept}")
         }
 
-        if(!employeeDAO.isManager(UUID.fromString(empRequest.reportingTo))){
+        if (!employeeDAO.isManager(UUID.fromString(empRequest.reportingTo))) {
             throw BadRequestException("No manager exist with the given reporting id ${empRequest.reportingTo}")
         }
 

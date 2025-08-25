@@ -19,7 +19,7 @@ This project follows a layered architecture where HTTP requests flow through dif
 - Request JSON is automatically converted to a Kotlin object using Jackson.  
 
 ### 4. Resource → Manager/Service Layer
-- The Resource calls the Manager (business logic), which decides how to process the request.  
+- The Resource calls the Manager Class (business logic), which decides how to process the request.  
 
 ### 5. Manager → DAO Layer
 - The Manager delegates persistence tasks to the DAO, which interacts with the database using JDBI.  
@@ -33,6 +33,54 @@ This project follows a layered architecture where HTTP requests flow through dif
 ### 8. Resource → Jersey → Client Response
 - The Resource returns a response object.  
 - Jersey + Jackson serialize the object into JSON.  
-- Jetty sends the final HTTP response to the client.  
+- Jetty sends the final HTTP response to the client.
+
+## Client -> ResourceClass -> ServiceClass -> DAO class -> ServiceClass -> ResourceClass -> Client
 
 ---
+# File description
+## dao
+- Interact with the database.
+- ### EmployeeDAO
+  - Contains all the database interactions related to employees(e.g.,createEmployee, deleteEmployee).
+- ### AttendanceDAO
+  - Contains all the database interactions related to attendances(e.g.,checkIn, checkOut).
+## dto
+- Data Transfer Object. Contains set of data classes to send/receive the response/request.Data classes are.
+- ### checkInRequest
+- ### checkOutRequest
+- ### CreateUserRequest
+- ### WorkSummary
+
+## model
+- ### Attendance 
+  - Data class contains Attendance details such as empId,checkInTime,checkOutTime,WorkingHrs.
+- ### Employee
+    - Data class contains Employee details such as empId,Name,roleId,deptId,ManagerId.
+- ### Department
+  - Enum class contains set of Departments.
+- ### Role
+  - Enum class contains set of Departments.
+
+## resource
+- ### AttendanceResource
+  - Contains url endpoints related to Attendance.
+- ### EmployeeResource
+  - Contains url endpoints related to Employee.
+
+## service
+- ### EmployeeService
+  - Service class for attendance and employee where business logics happen.
+
+## Application
+- Contains Application class and main function, first function(main) called when the application runs.
+- Application class contains run methods where we set up jdbi, create obj for employee, attendance dao, register resource class with jersey.
+
+## Configuration
+- Configuration class where we get dataSourceFactory details from the config.yml.
+
+## config.yml
+- Contains database details, setup application connection ports.
+
+## build.gradle.kts
+- Contains all the dependencies, setup Application main function location.
