@@ -1,6 +1,10 @@
+# Project Overview
+- This project is an Employee Attendance Management System built using Dropwizard with Kotlin.
+- It provides RESTful APIs to manage employees and track their attendance (check-in and check-out), while persisting data in a PostgreSQL database through JDBI.
+ 
 # HTTP Request & Response Workflow in Dropwizard
 
-This project follows a layered architecture where HTTP requests flow through different components before generating a response. Below is the detailed workflow:
+- This project follows a layered architecture where HTTP requests flow through different components before generating a response. Below is the detailed workflow:
 
 ---
 
@@ -18,16 +22,16 @@ This project follows a layered architecture where HTTP requests flow through dif
 - The matched method in the Resource class executes.  
 - Request JSON is automatically converted to a Kotlin object using Jackson.  
 
-### 4. Resource → Manager/Service Layer
+### 4. Resource → Service Layer
 - The Resource calls the Manager Class (business logic), which decides how to process the request.  
 
-### 5. Manager → DAO Layer
-- The Manager delegates persistence tasks to the DAO, which interacts with the database using JDBI.  
+### 5. Service → DAO Layer
+- The Service delegates persistence tasks to the DAO, which interacts with the database using JDBI.  
 
 ### 6. DAO → Database → DAO
 - DAO executes SQL queries and maps results to model classes.  
 
-### 7. DAO → Manager → Resource
+### 7. DAO → Service → Resource
 - Data flows back upward through DAO → Manager → Resource.  
 
 ### 8. Resource → Jersey → Client Response
@@ -35,40 +39,41 @@ This project follows a layered architecture where HTTP requests flow through dif
 - Jersey + Jackson serialize the object into JSON.  
 - Jetty sends the final HTTP response to the client.
 
-## Client -> ResourceClass -> ServiceClass -> DAO class -> ServiceClass -> ResourceClass -> Client
+## Client -> Resource -> Service -> DAO -> Service -> Resource -> Client
 
 ---
 # File description
-## dao
+## DAO
 - Interact with the database.
 - ### EmployeeDAO
   - Contains all the database interactions related to employees(e.g.,createEmployee, deleteEmployee).
 - ### AttendanceDAO
   - Contains all the database interactions related to attendances(e.g.,checkIn, checkOut).
-## dto
-- Data Transfer Object. Contains set of data classes to send/receive the response/request.Data classes are.
+## DTO
+- Data Transfer Objects (DTOs) are used to transfer data between client and server.
+- They define the structure of requests and responses.
 - ### checkInRequest
 - ### checkOutRequest
 - ### CreateUserRequest
 - ### WorkSummary
 
-## model
+## Model
 - ### Attendance 
-  - Data class contains Attendance details such as empId,checkInTime,checkOutTime,WorkingHrs.
+  - Data class contains Attendance details such as empId, checkInTime, checkOutTime, workingHrs.
 - ### Employee
-    - Data class contains Employee details such as empId,Name,roleId,deptId,ManagerId.
+    - Data class contains Employee details such as empId, name, roleId, deptId, managerId.
 - ### Department
-  - Enum class contains set of Departments.
+  - Enum class contains set of departments.
 - ### Role
-  - Enum class contains set of Departments.
+  - Enum class contains set of roles.
 
-## resource
+## Resource
 - ### AttendanceResource
-  - Contains url endpoints related to Attendance.
+  - Contains API endpoints related to Attendance.
 - ### EmployeeResource
-  - Contains url endpoints related to Employee.
+  - Contains API endpoints related to Employee.
 
-## service
+## Service
 - ### EmployeeService
   - Service class for attendance and employee where business logics happen.
 
@@ -79,8 +84,9 @@ This project follows a layered architecture where HTTP requests flow through dif
 ## Configuration
 - Configuration class where we get dataSourceFactory details from the config.yml.
 
-## config.yml
+## Config.yml
 - Contains database details, setup application connection ports.
 
-## build.gradle.kts
+## BuildGradle.kts
 - Contains all the dependencies, setup Application main function location.
+---
